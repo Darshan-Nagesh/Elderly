@@ -1,10 +1,15 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import { SafeAreaView, StyleSheet, Text, View,Image,FlatList,Pressable } from 'react-native'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-
+import { ScrollView } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import SuggestCard from '../Components/SuggestCard';
 
 const HomeScreen = () => {
   const navigation=useNavigation();
+  const [photos,setPhotos]=useState([]);
+  const [suggest,setSuggest]=useState([]);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -21,14 +26,94 @@ const HomeScreen = () => {
         shadowColor: "transparent",
       },
     });
-  },[]);
+  },[photos]);
+  useEffect(() => {
+    fetchDataCat();
+  }, [photos]);
+  useEffect(()=>{
+      fetchDatasuggest();
+  },[])
+  const fetchDataCat = async () => {
+    try {
+      if(photos.lengt<1){
 
+        const response = await fetch('https://api.slingacademy.com/v1/sample-data/photos?offset=5&limit=6');
+        const json = await response.json();
+        setPhotos(json.photos);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  const fetchDatasuggest = async () => {
+    try {
+      if(suggest.length<1){
+        const response = await fetch('https://api.slingacademy.com/v1/sample-data/photos?offset=5&limit=6');
+        const json = await response.json();
+        setSuggest(json.photos);
 
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  const pressedOnCategory=()=>{
+    //function has to be writeen hear to go to product showing page
+    //using navigation.naviagate method
+
+    console.log("Pressed");
+  }
+  const renderItem = ({ item }) => (
+    <Pressable className="ml-2 bg-slate-200 borderwidth border-2 mx-2 rounded-md  border-gray-400" onPress={pressedOnCategory}
+      style={({ pressed }) => [
+        { backgroundColor: pressed ? 'lightgray' : 'white' },
+        styles.item,
+      ]}
+    >
+      <Image source={{uri:item.url}} className="h-[88] w-40 " />
+      <Text className="text-blue-900 text-center py-1">{item.title.slice(0,10)}...</Text>
+    </Pressable>
+  );
+console.log(suggest);
   return (
+
     <SafeAreaView>
-        <View>
-            <Text className="font-bold">YOu are in home page</Text>
+    <View className="bg-slate-200">
+      <Image source={{uri:"https://img.freepik.com/free-vector/flat-black-friday-twitch-banner_23-2149122298.jpg?w=1380&t=st=1685274119~exp=1685274719~hmac=5909b2c4de69ca967e7747365502bdffc09c3a9ed13b342f0482ea7134d1e530"}} className="h-20 w-full">
+      </Image>
+    </View>
+    <View className=" bg-slate-200">
+    <View className="mt-1 bg-slate-200">
+    <View className="flex-row gap-4 ml-[2px] align-baseline">
+    <Entypo name="shopping-bag" size={24} color="#FFA68A" />
+      <Text className="mb-2 font-extrabold text-lg">Shop By category</Text>
+    </View>
+        <FlatList 
+      data={photos}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+      numColumns={2}
+      contentContainerStyle={{justifyContent:'space-evenly',alignItems:'center',gap:10}}
+    />
+    </View>
+
+    {/* reapeat order section */}
+    <View className="bg-slate-300 mt-4">
+        <View className="flex-row gap-4 ml-[2px] align-baseline">
+        <MaterialCommunityIcons name="repeat-once" size={30} color="#FFA68A" />
+        <Text className="mb-3 font-extrabold  text-lg"> Repeat Last Order</Text>
         </View>
+    </View>
+      <ScrollView horizontal={true}>
+            {
+              suggest.map((data,index)=>(
+                <SuggestCard url={data.url} title={data.title} price={20} key={index} />
+              ))
+            }
+      </ScrollView>
+      
+    </View>
+
     </SafeAreaView>
   )
 }
