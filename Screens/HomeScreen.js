@@ -26,20 +26,22 @@ const HomeScreen = () => {
         shadowColor: "transparent",
       },
     });
-  },[photos]);
+  },[]);
   useEffect(() => {
     fetchDataCat();
   }, [photos]);
   useEffect(()=>{
       fetchDatasuggest();
-  },[])
+  },[suggest])
   const fetchDataCat = async () => {
     try {
-      if(photos.lengt<1){
-
+      if(photos.length===0){
         const response = await fetch('https://api.slingacademy.com/v1/sample-data/photos?offset=5&limit=6');
         const json = await response.json();
         setPhotos(json.photos);
+      }
+      else{
+        console.log("alredy have data");
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -47,7 +49,7 @@ const HomeScreen = () => {
   };
   const fetchDatasuggest = async () => {
     try {
-      if(suggest.length<1){
+      if(suggest.length===0){
         const response = await fetch('https://api.slingacademy.com/v1/sample-data/photos?offset=5&limit=6');
         const json = await response.json();
         setSuggest(json.photos);
@@ -74,7 +76,9 @@ const HomeScreen = () => {
       <Text className="text-blue-900 text-center py-1">{item.title.slice(0,10)}...</Text>
     </Pressable>
   );
-console.log(suggest);
+  console.log(`from photos ${photos}`)
+  console.log(photos.length)
+console.log(`From suggest ${suggest}`);
   return (
 
     <SafeAreaView>
