@@ -24,6 +24,9 @@ const SearchByCategory = () => {
         },
       });
     },[]);
+    const postNewJob=()=>{
+      navigation.navigate("PostJob");
+    }
     const dummyData=[
       {
         "name": "John",
@@ -82,7 +85,7 @@ const SearchByCategory = () => {
           <View className=" my-2  border-white border-2 rounded-lg ">
 
           <Pressable className="" android_ripple={{color:'#f0ede6',borderless:true
-          }}>
+          }} onPress={postNewJob}>
               <Text className="text-white font-bold   rounded-md px-2 text-lg">Post Job</Text>
           </Pressable>
           </View>

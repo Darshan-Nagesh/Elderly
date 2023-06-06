@@ -14,6 +14,8 @@ import SearchByCategory from './Screens/SearchByCategory';
 import ShopByStore from './Screens/ShopByStore';
 import Cart from './Screens/Cart';
 import Profile from './Screens/Profile';
+import PostJob from './Screens/PostJob';
+import Bookings from './Screens/Bookings';
 const StackNavigator = () => {
     const Tab = createBottomTabNavigator();
     const stack=createNativeStackNavigator();
@@ -56,6 +58,8 @@ const StackNavigator = () => {
             <stack.Screen name="Main" component={Bottomtabs} options={{headerShown:false}} />
             <stack.Screen name="Login" component={LoginScreen} options={{headerShown:false}}  />
             <stack.Screen name="Register" component={SignUp} options={{headerShown:false}} />
+            <stack.Screen name="PostJob" component={PostJob} options={{headerShown:false}} />
+            <stack.Screen name="Bookings" component={Bookings} options={{headerShown:false}} />
         </stack.Navigator>
         </NavigationContainer>
   )
