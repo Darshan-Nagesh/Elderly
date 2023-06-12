@@ -1,6 +1,6 @@
 //Store schema
 export default {
-	title: 'store name',
+	title: 'store',
 		name: 'store',
 		type: 'document',
 		fields: [
@@ -17,6 +17,12 @@ export default {
 				title:'description',
 				name:'desc',
 				type:'string'
+			},
+			//image of the shop
+			{
+				title:'image of store',
+				name:'image',
+				type:'image'
 			},
 			//array of items available in the store
 			//it is pointing to the products and reference of that is stored here

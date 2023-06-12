@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SuggestCard from '../Components/SuggestCard';
+import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 
 const HomeScreen = () => {
   const navigation=useNavigation();
@@ -13,7 +14,12 @@ const HomeScreen = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title: "Elderly",
+      headerTitle: ()=>(
+        <Image
+      source={{uri:"https://i.ibb.co/PhWmQWy/Eldericon.png"}}
+      style={{width:105,height:40}}
+      />
+      ),
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: "bold",
@@ -35,10 +41,19 @@ const HomeScreen = () => {
   },[suggest])
   const fetchDataCat = async () => {
     try {
+      const query= `*[_type=="category"]
+      {
+        name,photo{asset{_ref}}
+      }
+      `
       if(photos.length===0){
-        const response = await fetch('https://api.slingacademy.com/v1/sample-data/photos?offset=5&limit=6');
-        const json = await response.json();
-        setPhotos(json.photos);
+        //fetching data from sanity
+        const response = await client.fetch(query);
+        console.log(response);
+        //assigning the response to photos using setPhotos
+        //photos has all the data now
+        setPhotos(response);
+       
       }
       else{
         console.log("alredy have data");
@@ -51,6 +66,7 @@ const HomeScreen = () => {
     try {
       if(suggest.length===0){
         const response = await fetch('https://api.slingacademy.com/v1/sample-data/photos?offset=5&limit=6');
+        
         const json = await response.json();
         setSuggest(json.photos);
 
@@ -65,6 +81,7 @@ const HomeScreen = () => {
 
     console.log("Pressed");
   }
+  //Render Category 
   const renderItem = ({ item }) => (
     <Pressable className="ml-2 bg-slate-200 borderwidth border-2 mx-2 rounded-md  border-gray-400" onPress={pressedOnCategory}
       style={({ pressed }) => [
@@ -72,13 +89,14 @@ const HomeScreen = () => {
         styles.item,
       ]}
     >
-      <Image source={{uri:item.url}} className="h-[88] w-40 " />
-      <Text className="text-blue-900 text-center py-1">{item.title.slice(0,10)}...</Text>
+      
+      <Image source={{uri:urlFor(item.photo.asset._ref).url()}} className="h-[88] w-40 " />
+      <Text className="text-blue-900 text-center py-1">{item.name}</Text>
     </Pressable>
   );
-  console.log(`from photos ${photos}`)
-  console.log(photos.length)
-console.log(`From suggest ${suggest}`);
+//   console.log(`from photos ${photos}`)
+//   console.log(photos.length)
+// console.log(`From suggest ${suggest}`);
   return (
 
     <SafeAreaView>
@@ -95,7 +113,6 @@ console.log(`From suggest ${suggest}`);
         <FlatList 
       data={photos}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id.toString()}
       numColumns={2}
       contentContainerStyle={{justifyContent:'space-evenly',alignItems:'center',gap:10}}
     />
