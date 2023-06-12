@@ -39,8 +39,10 @@ const HomeScreen = () => {
   useEffect(()=>{
       fetchDatasuggest();
   },[suggest])
+  //Updates the photos state which is used to list the categories in the home page
   const fetchDataCat = async () => {
     try {
+      //GROQ query to select the categories
       const query= `*[_type=="category"]
       {
         name,photo{asset{_ref}}
@@ -49,7 +51,7 @@ const HomeScreen = () => {
       if(photos.length===0){
         //fetching data from sanity
         const response = await client.fetch(query);
-        console.log(response);
+        //console.log(response);
         //assigning the response to photos using setPhotos
         //photos has all the data now
         setPhotos(response);
@@ -62,6 +64,7 @@ const HomeScreen = () => {
       console.error('Error fetching data:', error);
     }
   };
+  
   const fetchDatasuggest = async () => {
     try {
       if(suggest.length===0){
