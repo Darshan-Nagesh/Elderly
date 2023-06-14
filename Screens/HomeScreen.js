@@ -51,7 +51,17 @@ const HomeScreen = () => {
       if(photos.length===0){
         //fetching data from sanity
         const response = await client.fetch(query);
-        //console.log(response);
+        const doc={_type:'user',name:"shrikant",address: {
+          _type: 'geopoint',
+          lat: 123.456,
+          lng: 78.910,
+          alt:13.37
+        },items:[{_type:"reference",_ref:"c1d7aacb-a6fa-40ec-acce-a724b444bef3",_key:"user01"}],mobilenum:1234567890,
+      email:"something@gmail.com"}
+      console.log(client.config());
+      client.create(doc).then((res)=>{
+        console.log(res);
+      })
         //assigning the response to photos using setPhotos
         //photos has all the data now
         setPhotos(response);

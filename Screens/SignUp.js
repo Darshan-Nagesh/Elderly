@@ -3,12 +3,15 @@ import React, { Component, useState } from "react";
 import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Pressable, Alert, SafeAreaView } from "react-native";
 import {auth, db} from "../FireBase.js";
 import {  doc, setDoc } from 'firebase/firestore';
+import bcrypt from "bcryptjs";
+var salt = bcrypt.genSaltSync(10);
 
 const SignUp=()=> {
 const [name,setName]=useState();
 const [email,setEmail]=useState();
 const [Password,setPassword]=useState();
 const [phone,setPhone]=useState();
+//Also take location here
 const register=()=>{
     if(email==="" || Password=== "" || phone===""  || name===""){
         Alert.alert(
