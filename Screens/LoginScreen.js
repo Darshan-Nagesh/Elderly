@@ -4,6 +4,8 @@ import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Pressable, Ale
 import {auth, db} from "../FireBase.js";
 import {  doc, setDoc } from 'firebase/firestore';
 import { useNavigation } from "@react-navigation/native";
+
+
 const LoginScreen = () => {
     const [email,setEmail]=useState("");
     const [Password,setPassword]=useState();

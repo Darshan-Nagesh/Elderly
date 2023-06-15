@@ -4,8 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import { Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native';
 import Jobcard from '../Components/Jobcard';
+import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 
 const SearchByCategory = () => {
+    //Same as in HomePage
+
     const navigation=useNavigation();
     useLayoutEffect(() => {
       navigation.setOptions({

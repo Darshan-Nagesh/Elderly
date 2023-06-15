@@ -1,9 +1,14 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 
 const Profile = () => {
   const navigation = useNavigation();
+  //API request to sanity
+  let query=`*[_type == "user" && _id=="id of user"]`
+  //replace id of user with actual id
+  //const response = await client.fetch(query); 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,

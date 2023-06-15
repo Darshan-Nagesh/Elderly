@@ -1,8 +1,21 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 
 const Cart = () => {
+  //Update the document using patch
+  
+  // client
+  // .patch('id') // Document ID to patch
+  // .set({items: []}) // array of id's refering to products
+  // .commit() // Perform the patch and return a promise
+  // .then((data) => {
+  //   console.log(data)
+  // })
+  // .catch((err) => {
+  //   console.error(err.message);
+  // })
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({

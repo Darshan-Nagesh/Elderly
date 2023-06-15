@@ -11,7 +11,15 @@ import * as Location from 'expo-location'
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
+
 const PostJob = () => {
+  //Query to fetch services
+  let query=`*[_type=="service"]
+  {
+    name,datetime,location
+  }
+  `
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const navigation=useNavigation();  const [selected, setSelected] = useState(undefined);
