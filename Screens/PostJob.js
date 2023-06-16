@@ -21,6 +21,29 @@ const PostJob = () => {
   }
   `
   //Query to post the service request
+
+//   const doc={_type:'service',name:name,address: {
+//     _type: 'geopoint',
+//     lat: Number(latitude),
+//     lng: Number(longitude),
+//     alt:0
+//   },items:[],mobilenum:Number(phone),password:digest,
+// email:email}
+// console.log(client.config());
+// client.create(doc).then((res)=>{
+//   console.log(res);
+// })
+
+  // client
+  // .patch('id') // Document ID to patch
+  // .set({items: []}) // array of id's refering to products
+  // .commit() // Perform the patch and return a promise
+  // .then((data) => {
+  //   console.log(data)
+  // })
+  // .catch((err) => {
+  //   console.error(err.message);
+  // })
   
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
