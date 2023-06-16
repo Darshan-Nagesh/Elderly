@@ -4,27 +4,58 @@ import { useNavigation } from '@react-navigation/native';
 import client, { urlFor } from '../sanity';
 
 const ShopByStore = () => {
-    const navigation=useNavigation();
-    useLayoutEffect(() => {
-      navigation.setOptions({
-        headerShown: true,
-        title: "Nearby Stores",
-        headerTitleStyle: {
-          fontSize: 18,
-          fontWeight: "bold",
-          color: "white",
-        },
-        headerStyle: {
-          backgroundColor: "#312B66",
-          height: 80,
-          borderBottomColor: "transparent",
-          shadowColor: "transparent",
-        },
-      });
-    },[]);
-  return (
-    <View>
-      
+  const [stores, setStores] = useState([]);
+
+  const fetchdata = async () => {
+    try {
+      const response = await client.fetch(`*[_type == "store"]{
+        name,
+        _id,
+        desc,
+        address,
+        image{asset{_ref}}
+      }`);
+      setStores(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchdata();
+  }, []);
+
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      title: "Nearby Stores",
+      headerTitleStyle: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "white",
+      },
+      headerStyle: {
+        backgroundColor: "#312B66",
+        height: 80,
+        borderBottomColor: "transparent",
+        shadowColor: "transparent",
+      },
+    });
+  }, [navigation]);
+
+  const renderStoreItem = ({ item }) => (
+    <View style={styles.storeItem}>
+      {item.image && (
+        <Image
+          source={{ uri: urlFor(item.image.asset._ref).url() }}
+          style={styles.storeImage}
+        />
+      )}
+      <View style={styles.storeInfo}>
+        <Text style={styles.storeName}>{item.name}</Text>
+        <Text style={styles.storeAddress}>{item.address}</Text>
+      </View>
     </View>
   );
 
