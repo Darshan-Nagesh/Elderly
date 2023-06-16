@@ -2,6 +2,7 @@ import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
+import AccountDetails from '../Components/AccountDetails';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -31,18 +32,20 @@ const Profile = () => {
 
   const handleLogin = () => {
     setIsLoggedIn(true);
+    navigation.navigate("Login");
   };
-
   const handleLogout = () => {
     setIsLoggedIn(false);
+    navigation.navigate("Login");
   };
 
   return (
     <View style={styles.container}>
       {isLoggedIn ? (
         <View>
-          <Text style={styles.loggedInText}>Welcome to Elderly!</Text>
-          <Button title="Logout" onPress={handleLogout} />
+          {/* <Text style={styles.loggedInText}>Welcome to Elderly!</Text>
+          <Button title="Logout" onPress={handleLogout} /> */}
+            <AccountDetails />
         </View>
       ) : (
         <View>

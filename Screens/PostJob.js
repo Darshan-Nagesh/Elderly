@@ -20,6 +20,8 @@ const PostJob = () => {
     name,datetime,location
   }
   `
+  //Query to post the service request
+  
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const navigation=useNavigation();  const [selected, setSelected] = useState(undefined);
