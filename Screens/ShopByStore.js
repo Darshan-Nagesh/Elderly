@@ -23,7 +23,7 @@ const ShopByStore = () => {
     },[]);
   return (
     <View>
-      <Text>ShopByStore</Text>
+      
     </View>
   )
 }
