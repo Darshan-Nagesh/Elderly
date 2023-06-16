@@ -3,13 +3,44 @@ import React, { Component, useState } from "react";
 import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Pressable, Alert, SafeAreaView } from "react-native";
 import {auth, db} from "../FireBase.js";
 import {  doc, setDoc } from 'firebase/firestore';
+import * as Crypto from "expo-crypto";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from '@expo/vector-icons';
+import * as Location from 'expo-location';
+import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
+
 
 const SignUp=()=> {
 const [name,setName]=useState();
 const [email,setEmail]=useState();
 const [Password,setPassword]=useState();
 const [phone,setPhone]=useState();
-const register=()=>{
+const navigation=useNavigation();
+const [latitude, setlatitude] = useState('');
+const [longitude,setlongitude]= useState('');
+//Also take location here
+
+//taking the coordinates or address of user
+const handleLocationInput = async () => {
+  try {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission denied', 'Please grant location permission');
+      return;
+    }
+
+    const locationData = await Location.getCurrentPositionAsync({});
+    const { latitude, longitude } = locationData.coords;
+    setlatitude(latitude);
+    setlongitude(longitude);
+    //console.log(latitude);
+  } catch (error) {
+    Alert.alert('Error', error.message);
+  }
+};
+
+const register=async()=>{
+  
     if(email==="" || Password=== "" || phone===""  || name===""){
         Alert.alert(
             "Invalid Details",
@@ -26,6 +57,23 @@ const register=()=>{
           );
     }
     else{
+      //using expo-crypto module to encrypt the password
+      const digest = await Crypto.digestStringAsync(
+        Crypto.CryptoDigestAlgorithm.SHA256,
+        Password
+      );
+      const doc={_type:'user',name:name,address: {
+        _type: 'geopoint',
+        lat: Number(latitude),
+        lng: Number(longitude),
+        alt:0
+      },items:[],mobilenum:Number(phone),password:digest,
+    email:email}
+    console.log(client.config());
+    client.create(doc).then((res)=>{
+      console.log(res);
+    })
+
         createUserWithEmailAndPassword(auth,email,Password).then((userCredentials)=>{
             const user=userCredentials._tokenResponse.email;
             const uid=auth.currentUser.uid;  
@@ -35,6 +83,7 @@ const register=()=>{
                 name:name
             })
         })
+        navigation.navigate("Main");
     }
 }
   return (
@@ -64,6 +113,10 @@ const register=()=>{
         placeholder="Enter your Password" keyboardType="default" secureTextEntry={true}
         style={styles.textInput}
       ></TextInput>
+      <Text style={styles.email}>Location</Text>
+      <Pressable   placeholder="location" keyboardType="default" style={styles.textInput} onPress={handleLocationInput} >
+      <Ionicons   name="locate-outline" size={24} color="black" />
+      </Pressable>
 
       <Pressable style={styles.button} onPress={register}>
         <Text style={styles.butoonText}>Register</Text>

@@ -37,6 +37,16 @@ export default {
 				title: 'Price',
 				name: 'price',
 				type: 'number'
+			  },
+			  //Which shop they belong to
+			  {
+				title: 'shop',
+				name: 'shop',
+				type: 'reference',
+					to: [
+					  {type: 'store'},//pointing to shop 
+					 
+					]
 			  }
 		  ]
 }

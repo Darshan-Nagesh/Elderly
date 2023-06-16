@@ -5,7 +5,8 @@ import imageUrlBuilder from '@sanity/image-url'
 	projectId: 'p2pv0xzo',
 	dataset: 'production',
 	useCdn: true, // set to `false` to bypass the edge cache
-	apiVersion: '2023-05-03', // use current date (YYYY-MM-DD) to target the latest API version
+	apiVersion: '2023-05-03',
+	token:"skTgNbtAkWuOTZdkGRbl5B1Ph8xFWkekvGv5aTwtVkzgVjHADwTi8glYFNola4j7LyNPntSgtvFMgMGmDGJ0aUyPOWZNuMNtHbf6AjRp9gHOqUmmFEZ8aaRobnnpRDzSvqVGHdw80xYJ8Bp3juIoflOM3pcoK31Aq7H0XRIfICvsiWW3czxI" // use current date (YYYY-MM-DD) to target the latest API version
 
   })
 

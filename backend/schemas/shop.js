@@ -24,21 +24,24 @@ export default {
 				name:'image',
 				type:'image'
 			},
+
+		//NOTE::Deleting this because It becomes difficult to fetch all the items in a store
+
 			//array of items available in the store
 			//it is pointing to the products and reference of that is stored here
-			{
-				title: 'Items available',
-				name: 'items',
-				type: 'array',
-				of: [
-				  {
-					type: 'reference',
-					to: [
-					  {type: 'products'},//pointint to products schema
+			// {
+			// 	title: 'Items available',
+			// 	name: 'items',
+			// 	type: 'array',
+			// 	of: [
+			// 	  {
+			// 		type: 'reference',
+			// 		to: [
+			// 		  {type: 'products'},//pointint to products schema
 					 
-					]
-				  }
-				]
-			  }
+			// 		]
+			// 	  }
+			// 	]
+			//   }
 		]
 }

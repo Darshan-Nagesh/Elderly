@@ -51,7 +51,7 @@ const HomeScreen = () => {
       if(photos.length===0){
         //fetching data from sanity
         const response = await client.fetch(query);
-        //console.log(response);
+       
         //assigning the response to photos using setPhotos
         //photos has all the data now
         setPhotos(response);
@@ -68,10 +68,23 @@ const HomeScreen = () => {
   const fetchDatasuggest = async () => {
     try {
       if(suggest.length===0){
-        const response = await fetch('https://api.slingacademy.com/v1/sample-data/photos?offset=5&limit=6');
-        
-        const json = await response.json();
-        setSuggest(json.photos);
+        //This query is used to fetch id of the product
+        let query = `*[_type=="user"  ]
+        {
+          items[0]{_ref}
+        }
+        `
+       
+        let response = await client.fetch(query);
+        //This query fetches the product 
+        //replace _ref with the id of the product in the users
+        query= `*[_type=="products"]
+        {
+          name,image{asset{_ref}}
+        }
+        `
+         response = await client.fetch(query);
+        setSuggest(response);
 
       }
     } catch (error) {
@@ -131,7 +144,7 @@ const HomeScreen = () => {
       <ScrollView horizontal={true}>
             {
               suggest.map((data,index)=>(
-                <SuggestCard url={data.url} title={data.title} price={20} key={index} />
+                <SuggestCard url={data.image.asset._ref} title={data.name} price={20} key={index} />
               ))
             }
       </ScrollView>
