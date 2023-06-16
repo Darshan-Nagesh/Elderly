@@ -16,8 +16,8 @@ const HomeScreen = () => {
       headerShown: true,
       headerTitle: ()=>(
         <Image
-      source={{uri:"https://i.ibb.co/PhWmQWy/Eldericon.png"}}
-      style={{width:105,height:40}}
+      source={{uri:"https://i.ibb.co/bNK01DQ/logo.png"}}
+      style={{width:100,height:38}}
       />
       ),
       headerTitleStyle: {
@@ -27,7 +27,7 @@ const HomeScreen = () => {
       },
       headerStyle: {
         backgroundColor: "#312B66",
-        height: 80,
+        height: 94,
         borderBottomColor: "transparent",
         shadowColor: "transparent",
       },
