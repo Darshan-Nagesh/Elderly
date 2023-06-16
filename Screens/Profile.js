@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 import AccountDetails from '../Components/AccountDetails';
@@ -26,18 +26,18 @@ const Profile = () => {
   const fetchUserDetails = async () => {
     if(user.length===0){
       // Fetching the user data by using the user ID
-      let id = "wTURNjP62fuXRm3qPkJlYb"; // This can be your dynamic user ID
+      let id = "r7D6aPT0NrdX0UJBndH73o"; // This can be your dynamic user ID
       // After introducing Redux, you can change the ID dynamically
-      let query = `*[_type == "user" && _id == $id] {
-          ...,
-          items[]->{
-            name,
-            image,
-            shop[]->{
-              name
-            }
+      let query = `*[_type == "user" && _id ==$id ] {
+        ...,
+        items[]->{
+          name,
+          image,
+          shop->{
+          name
           }
-      }`;
+        }
+    }`;
       const params = { id }; // Define the parameter object
     
       const response = await client.fetch(query, params); // Pass the query and params to the fetch function
@@ -70,6 +70,8 @@ const Profile = () => {
   console.log(user);
 
   return (
+    <ScrollView>
+
     <View className="bg-slate-200 flex">
           {/* basic info part */}
            <View className="bg-slate-300">
@@ -93,16 +95,15 @@ const Profile = () => {
     
           </View>
         {/*perious  oder part */}
-        
-         <View className="mt-2">
-                    {
+        {
+
                       user.map((person,index)=>(
                           <OrderHistory orders={person.items} key={index}/>
                       ))
-                    }
-
-         </View>           
+         
+        }
     </View>
+    </ScrollView>
   );
 };
 
