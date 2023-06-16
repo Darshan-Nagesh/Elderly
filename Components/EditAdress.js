@@ -4,11 +4,12 @@ import { TextInput } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 const EditAdress = ({ person }) => {
   console.log(person);
-  const [lat, setLat] = useState(`${person.address.lat}`);
-  const [lng, setLng] = useState(`${person.address.lng}`);
-  const [alt, setAlt] = useState(`${person.address.alt}`);
+  const [lat, setLat] = useState(String(person.address.lat));
+  const [lng, setLng] = useState(String(person.address.lng));
+  const [alt, setAlt] = useState(String(person.address.alt));
 
-//@manoj look into this query
+//@manoj look into this query here all state varibale are strings 
+//covert the lat lng and alt input from String to Number before patch query
   //after clicking the upadate now button this one will exicute
   const updateAddressHandler=()=>{
     //we need to do a update request code in this function
@@ -45,7 +46,7 @@ const EditAdress = ({ person }) => {
             <TextInput
               style={{ height: 40, width: 160 }}
               value={lng}
-              defaultValue={lng}
+              defaultValue={String(lng)}
               onTextInput={(text) => setLng(text)}
             />
             <MaterialIcons name="edit" size={24} color="black" />
@@ -56,8 +57,8 @@ const EditAdress = ({ person }) => {
           <View className="border-gray-400 border-y-2 border-x-2 w-4/6 flex-row items-center justify-evenly ">
             <TextInput
               style={{ height: 40, width: 170 }}
-              value={alt}
-              defaultValue={alt}
+              value={String(alt)}
+              defaultValue={String(alt)}
               onTextInput={(text) => setAlt(text)}
             />
             <MaterialIcons name="edit" size={24} color="black" />

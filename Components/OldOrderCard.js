@@ -3,7 +3,7 @@ import React from 'react'
 
 const OldOrderCard = ({name,image,shop}) => {
   return (
-    <View className="border-2 ml-1 mr-1 border-gray-500 mt-3">
+    <View className="border-2 ml-2 mr-2 border-gray-500 mt-3">
     <View className="flex-row justify-between ml-4 mt-3 w-11/12">
         <View >
             <View className="mt-4">
