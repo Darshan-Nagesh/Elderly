@@ -68,38 +68,34 @@ const HomeScreen = () => {
   const fetchDatasuggest = async () => {
     try {
       if(suggest.length===0){
-        //This query is used to fetch id of the product
-        let query = `*[_type=="user"  ]
+        //This query is used to fetch last orders
+        let query = `*[_type=="user" && name=="Kishan"] 
         {
-          items[0]{_ref}
+          items[]->
         }
+        
         `
-       
-        let response = await client.fetch(query);
-        //This query fetches the product 
-        //replace _ref with the id of the product in the users
-        query= `*[_type=="products"]
-        {
-          name,image{asset{_ref}}
-        }
-        `
-         response = await client.fetch(query);
-        setSuggest(response);
+       let response = await client.fetch(query);
+        //console.log(response[0].items);
+        setSuggest(response[0].items);
 
       }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-  const pressedOnCategory=()=>{
+  const pressedOnCategory=(item)=>{
     //function has to be writeen hear to go to product showing page
     //using navigation.naviagate method
+    let cat=item.name;
+    console.log(cat);
+    navigation.navigate("Products",{category:cat})
 
-    console.log("Pressed");
+  
   }
   //Render Category 
   const renderItem = ({ item }) => (
-    <Pressable className="ml-2 bg-slate-200 borderwidth border-2 mx-2 rounded-md  border-gray-400" onPress={pressedOnCategory}
+    <Pressable className="ml-2 bg-slate-200 borderwidth border-2 mx-2 rounded-md  border-gray-400" onPress={()=>{pressedOnCategory(item)}}
       style={({ pressed }) => [
         { backgroundColor: pressed ? 'lightgray' : 'white' },
         styles.item,
