@@ -4,7 +4,7 @@ const initialstate={
 	cartItem:[],
 	cartTotalQuantity:0,
 	cartTotalAmount:0,
-	userId:"",
+	userId:" ",
 }
 
 const cartSlice=createSlice({
@@ -23,7 +23,8 @@ const cartSlice=createSlice({
 			  {
 				state.cartItem[existingIndex].quantity++;
 				state.cartTotalQuantity++;
-				state.cartTotalAmount+=product.price;
+				let total=state.cartTotalAmount
+				state.cartTotalAmount=product.price+total;
 				console.log(state.cartItem);
 			  }
 			  else
@@ -44,15 +45,20 @@ const cartSlice=createSlice({
 			 
 			  state.cartItem.splice(existingItem, 1);
 		  }
-		  state.cartTotalAmount-=product.price;
+		  let total=state.cartTotalAmount
+		  state.cartTotalAmount=total-product.price;
 		  state.cartTotalQuantity--;
       }
 	  
+		},
+		setuserid:(state,action)=>
+		{
+			state.userId=action.payload;
 		},
 
 	}
 }
 )
 
-export const {addToCart,removeFromCart}=cartSlice.actions;
+export const {addToCart,removeFromCart,setuserid}=cartSlice.actions;
 export default cartSlice.reducer;

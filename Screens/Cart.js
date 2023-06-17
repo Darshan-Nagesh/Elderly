@@ -1,9 +1,13 @@
-import React, { useState, useLayoutEffect } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
+import { View, Text, Button, StyleSheet, ScrollView,Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { addToCart,removeFromCart } from '../features/cartSlice';
+import {useDispatch, useSelector } from 'react-redux';
 import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 
 const Cart = () => {
+  const dispatch=useDispatch();
+	const cart=useSelector(state=>state.cart);
   //Update the document using patch
   
   // client
@@ -16,6 +20,12 @@ const Cart = () => {
   // .catch((err) => {
   //   console.error(err.message);
   // })
+  const [cartItems, setCartItems] = useState([]);
+  useEffect(()=>
+  {
+    setCartItems(cart.cartItem);
+    console.log(cart.cartItem);
+  },[cart])
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -35,24 +45,18 @@ const Cart = () => {
     });
   }, []);
 
-  const [cartItems, setCartItems] = useState([]);
 
-  const addToCart = (item) => {
-    setCartItems([...cartItems, item]);
-  };
+  
+  const handleAddToCart = (item) => {
+		dispatch(addToCart( item ));
+		console.log("+");
+    console.log(item);
+	  };
 
-  const removeFromCart = (item) => {
-    const updatedCart = cartItems.filter((cartItem) => cartItem.id !== item.id);
-    setCartItems(updatedCart);
-  };
-
-  const calculateTotal = () => {
-    let total = 0;
-    cartItems.forEach((item) => {
-      total += item.price * item.quantity;
-    });
-    return total;
-  };
+    const handleRemoveFromCart = (item) => {
+      dispatch(removeFromCart( item ));
+     console.log("pressed");
+     };
 
   return (
     <View style={styles.container}>
@@ -61,50 +65,20 @@ const Cart = () => {
           <Text style={styles.emptyCartText}>Your cart is empty</Text>
         ) : (
           cartItems.map((item) => (
-            <View key={item.id} style={styles.cartItem}>
+            <View key={item.product._id} style={styles.cartItem}>
               <View style={styles.itemDetails}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text style={styles.itemPrice}>₹ {item.price}</Text>
+                <Text style={styles.itemName}>{item.product.name}</Text>
+                <Text style={styles.itemPrice}>₹ {item.product.price}</Text>
               </View>
               <View style={styles.itemActions}>
-                <Button
-                  title="-"
-                  onPress={() => {
-                    if (item.quantity > 1) {
-                      const updatedCart = cartItems.map((cartItem) => {
-                        if (cartItem.id === item.id) {
-                          return {
-                            ...cartItem,
-                            quantity: cartItem.quantity - 1,
-                          };
-                        }
-                        return cartItem;
-                      });
-                      setCartItems(updatedCart);
-                    }
-                  }}
-                />
+              <Pressable className="bg-red-300 rounded-sm">
+					 <Text className="font-semibold py-0.5 px-2 text-xl" onPress={()=>handleRemoveFromCart(item)}>-</Text>
+					 </Pressable> 
                 <Text style={styles.itemQuantity}>{item.quantity}</Text>
-                <Button
-                  title="+"
-                  onPress={() => {
-                    const updatedCart = cartItems.map((cartItem) => {
-                      if (cartItem.id === item.id) {
-                        return {
-                          ...cartItem,
-                          quantity: cartItem.quantity + 1,
-                        };
-                      }
-                      return cartItem;
-                    });
-                    setCartItems(updatedCart);
-                  }}
-                />
-                <Button
-                  title="Remove"
-                  onPress={() => removeFromCart(item)}
-                  color="#ff0000"
-                />
+                <Pressable className="bg-emerald-300 rounded-sm">
+					 <Text className="font-semibold py-0.5 px-2 text-xl" onPress={()=>handleAddToCart(item)}>+</Text>
+					 </Pressable> 
+               
               </View>
             </View>
           ))
@@ -112,7 +86,7 @@ const Cart = () => {
       </ScrollView>
       {cartItems.length > 0 && (
         <View style={styles.totalContainer}>
-          <Text style={styles.totalText}>Total: ₹ {calculateTotal()}</Text>
+          <Text style={styles.totalText}>Total: ₹ {cart.cartTotalAmount}</Text>
           <Button title="Place Order" onPress={() => {}} />
         </View>
       )}

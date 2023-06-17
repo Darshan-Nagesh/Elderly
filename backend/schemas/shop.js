@@ -24,39 +24,39 @@ export default {
 				name:'image',
 				type:'image'
 			},
+			//mobile number
 			{
 				title:'phone number',
 				name:"phone",
 				type:'number'
 			},
+			//rating
 			{
 				title:'rating',
 				name:'rating',
 				type:'number'
 			},
+			//address
 			{
 				title:'address',
 				name:'address',
 				type:'string',
 			},
-
-		//NOTE::Deleting this because It becomes difficult to fetch all the items in a store
-
 			//array of items available in the store
 			//it is pointing to the products and reference of that is stored here
-			// {
-			// 	title: 'Items available',
-			// 	name: 'items',
-			// 	type: 'array',
-			// 	of: [
-			// 	  {
-			// 		type: 'reference',
-			// 		to: [
-			// 		  {type: 'products'},//pointint to products schema
+			{
+				title: 'Items available',
+				name: 'items',
+				type: 'array',
+				of: [
+				  {
+					type: 'reference',
+					to: [
+					  {type: 'products'},//pointint to products schema
 					 
-			// 		]
-			// 	  }
-			// 	]
-			//   }
+					]
+				  }
+				]
+			  }
 		]
 }

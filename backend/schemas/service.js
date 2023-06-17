@@ -29,18 +29,12 @@ export default{
 			name:"accepter",
 			type:"reference",
 			to:[{type:"user"}]
-		},{
-			title:'state of the Servicer',
-			name:'state',
-			type:'string',
-		},{
-			title:'working hour from',
-			name:'work_hour_from',
-			string:'number'
-		},{
-			title:'working hour to',
-			name:'work_hour_to',
-			string:'number'
 		},
+		
+		{
+			title:'work hour',
+			name:'workhour',
+			type:'string'
+		}
 	]
 }
