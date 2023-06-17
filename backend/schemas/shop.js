@@ -24,6 +24,21 @@ export default {
 				name:'image',
 				type:'image'
 			},
+			{
+				title:'phone number',
+				name:"phone",
+				type:'number'
+			},
+			{
+				title:'rating',
+				name:'rating',
+				type:'number'
+			},
+			{
+				title:'address',
+				name:'address',
+				type:'string',
+			},
 
 		//NOTE::Deleting this because It becomes difficult to fetch all the items in a store
 
