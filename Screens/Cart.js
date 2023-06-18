@@ -24,7 +24,6 @@ const Cart = () => {
   useEffect(()=>
   {
     setCartItems(cart.cartItem);
-    console.log(cart.cartItem);
   },[cart])
   const navigation = useNavigation();
   useLayoutEffect(() => {
@@ -49,13 +48,12 @@ const Cart = () => {
   
   const handleAddToCart = (item) => {
 		dispatch(addToCart( item ));
-		console.log("+");
-    console.log(item);
+	
 	  };
 
     const handleRemoveFromCart = (item) => {
       dispatch(removeFromCart( item ));
-     console.log("pressed");
+  
      };
 
   return (
@@ -72,11 +70,11 @@ const Cart = () => {
               </View>
               <View style={styles.itemActions}>
               <Pressable className="bg-red-300 rounded-sm">
-					 <Text className="font-semibold py-0.5 px-2 text-xl" onPress={()=>handleRemoveFromCart(item)}>-</Text>
+					 <Text className="font-semibold py-0.5 px-2 text-xl" onPress={()=>handleRemoveFromCart(item.product)}>-</Text>
 					 </Pressable> 
                 <Text style={styles.itemQuantity}>{item.quantity}</Text>
                 <Pressable className="bg-emerald-300 rounded-sm">
-					 <Text className="font-semibold py-0.5 px-2 text-xl" onPress={()=>handleAddToCart(item)}>+</Text>
+					 <Text className="font-semibold py-0.5 px-2 text-xl" onPress={()=>handleAddToCart(item.product)}>+</Text>
 					 </Pressable> 
                
               </View>

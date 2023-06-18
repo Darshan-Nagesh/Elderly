@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import client, { urlFor } from '../sanity';
 
@@ -26,6 +26,13 @@ const ShopByStore = () => {
   }, []);
 
   const navigation = useNavigation();
+  const redirect=(item)=>
+  {
+    
+    let id=item._id;
+    navigation.navigate("Products",{shopid:id});
+  }
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -45,7 +52,9 @@ const ShopByStore = () => {
   }, [navigation]);
 
   const renderStoreItem = ({ item }) => (
-    <View style={styles.storeItem}>
+    <View >
+      <Pressable style={styles.storeItem} onPress={()=>redirect(item)}>
+
       {item.image && (
         <Image
           source={{ uri: urlFor(item.image.asset._ref).url() }}
@@ -56,6 +65,7 @@ const ShopByStore = () => {
         <Text style={styles.storeName}>{item.name}</Text>
         <Text style={styles.storeAddress}>{item.address}</Text>
       </View>
+      </Pressable>
     </View>
   );
 

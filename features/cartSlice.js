@@ -25,12 +25,14 @@ const cartSlice=createSlice({
 				state.cartTotalQuantity++;
 				let total=state.cartTotalAmount
 				state.cartTotalAmount=product.price+total;
-				console.log(state.cartItem);
+				//console.log(state.cartItem);
 			  }
 			  else
 			  {
 				state.cartItem.push({product,quantity:1});
-				console.log(state.cartItem);
+				state.cartTotalAmount+=product.price;
+				state.cartTotalQuantity++;
+				//console.log(state.cartItem);
 			  }
 		},
 		removeFromCart:(state,action)=>
