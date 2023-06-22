@@ -54,7 +54,7 @@ const Jobcard = () => {
                 android_ripple={{ color: "gray" }}
                 onPress={requestService}
               >
-                <Text className="text-center text-white">Request Now</Text>
+                <Text className="text-center text-white">Accept</Text>
               </Pressable>
             </View>
           </View>

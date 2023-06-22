@@ -14,7 +14,7 @@ const SearchByCategory = () => {
     useLayoutEffect(() => {
       navigation.setOptions({
         headerShown: true,
-        title: "Shop by Categories",
+        title: "Services",
         headerTitleStyle: {
           fontSize: 18,
           fontWeight: "bold",
