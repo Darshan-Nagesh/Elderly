@@ -84,7 +84,6 @@ const Product = () => {
 		return item ? item.quantity : 0;
 	  };
 	const renderItem = ({item} ) => (
-	
 		<View className="flex-row   mt-1 mr-3 ml-3 mb-1 rounded-2xl bg-slate-100  shadow-xl shadow-black space-x-5  overflow-hidden ">
 			<View className="rounded-2xl  p-0.5">
 
