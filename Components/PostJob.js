@@ -11,10 +11,12 @@ import * as Location from 'expo-location'
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
 import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 
 const PostJob = () => {
   //Query to fetch services
+  const cart =useSelector(state=>state.cart);
   let query=`*[_type=="service"]
   {
     name,datetime,location
@@ -108,13 +110,14 @@ const PostJob = () => {
     },[]);
 
     const bookJob=()=>{
+      let id=cart.userId;
         //need to save the data to the database
         const doc={_type:'service',name:value,location: {
           _type: 'geopoint',
           lat: Number(34.56),//userAddress.coords.latitude
           lng: Number(73.98),//userAddress.coords.longitude
           alt:0
-        },datetime:selectedDate,requester:"ersd234",accepter:"",workhour:"4:00-5:00"}
+        },datetime:selectedDate,requester:id,accepter:"",workhour:"4:00-5:00"}
       console.log(client.config());
       client.create(doc).then((res)=>{
         console.log(res);
@@ -187,13 +190,13 @@ const PostJob = () => {
              </Pressable>
         </View>
         </View>
-        {/* contact number */}
+        {/* contact number
         <View className="border-gray-400 mt-4 ml-4 border-2 rounded-2xl py-3 mr-4">
             <View className="flex-row justify-start ml-4 space-x-5">
             <Feather name="phone" size={24} color="black" />
             <TextInput placeholder='Enter your phone number' onChange={(text)=>setPhone(text)} value={phone} keyboardType='number-pad' />
             </View>
-        </View>
+        </View> */}
         <View className="flex-row justify-center mt-7">
             <Pressable className=" bg-[#312B66] rounded-lg" onPress={bookJob}>
                 <Text className="text-white px-10 py-2 font-extrabold text-base">Post</Text>

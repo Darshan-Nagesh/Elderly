@@ -4,12 +4,16 @@ import { useNavigation } from '@react-navigation/native';
 import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 import AccountDetails from '../Components/AccountDetails';
 import EditAdress from '../Components/EditAdress';
+import { useSelector } from 'react-redux';
 import OrderHistory from '../Components/OrderHistory';
 
 const Profile = () => {
   const navigation = useNavigation(); 
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [user,setUser]=useState([]);
+  //initializing useSelector
+  const cart=useSelector(state=>state.cart);
+
   //initally the user is set to empty array
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -25,10 +29,14 @@ const Profile = () => {
   
   const fetchUserDetails = async () => {
     if(user.length===0){
-      // Fetching the user data by using the user ID
-      let id = "r7D6aPT0NrdX0UJBndH73o"; // This can be your dynamic user ID
+
+    try {
+       // Fetching the user data by using the user ID
+       let id = cart.userId;
+     
+       // This can be your dynamic user ID
       // After introducing Redux, you can change the ID dynamically
-      let query = `*[_type == "user" && _id ==$id ] {
+      let query = `*[_type == "user" && _id =="${id}" ] {
         ...,
         items[]->{
           name,
@@ -38,12 +46,14 @@ const Profile = () => {
           }
         }
     }`;
-      const params = { id }; // Define the parameter object
-    
-      const response = await client.fetch(query, params); // Pass the query and params to the fetch function
-      // console.log(response);
+      const response = await client.fetch(query); // Pass the query and params to the fetch function
+       //console.log(response);
       setUser(response);
-      //can also use response[0] but not using bcz if we combinde 2 user into family in future thsi code might give error
+      //can also use response[0] but not using bcz if we combinde 2 user into family in future this code might give error
+    } catch (error) {
+      console.log(error);
+    }
+      
     }
     else{
       console.log("alredy have data no need to call the api")
@@ -67,7 +77,7 @@ const Profile = () => {
     });
   }, []);
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <ScrollView>

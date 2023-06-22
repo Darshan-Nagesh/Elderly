@@ -7,10 +7,14 @@ import * as Crypto from "expo-crypto";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
+import {useDispatch,useSelector} from 'react-redux';
 import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
+import { setuserid } from "../features/cartSlice.js";
 
 
 const SignUp=()=> {
+  const dispatch=useDispatch();
+  const user=useSelector(state=>state.cart);
 const [name,setName]=useState();
 const [email,setEmail]=useState();
 const [Password,setPassword]=useState();
@@ -71,7 +75,8 @@ const register=async()=>{
     email:email}
     console.log(client.config());
     client.create(doc).then((res)=>{
-      console.log(res);
+      //Setting id of the user in redux
+      dispatch(setuserid(res._id));
     })
 
         createUserWithEmailAndPassword(auth,email,Password).then((userCredentials)=>{
