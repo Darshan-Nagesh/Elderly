@@ -25,11 +25,7 @@ const Jobcard = () => {
         const query = `*[_type == "service"]
                 {accepter{_ref},requester{_ref},datetime,name,location,workhour}`;
         response = await client.fetch(query);
-        console.log("resopnse: ");
-        console.log(response);
         setdata(response);
-        console.log("Service");
-        console.log(services);
       } catch (error) {
         console.log(error);
       }
@@ -40,7 +36,6 @@ const Jobcard = () => {
     console.log("setrvice requested");
   };
   const renderpage = (data) => {
-    console.log(data);
     return (
       <View className="bg-stone-200 rounded-xl mx-2 flex-row py-5 justify-between space-x-10">
         

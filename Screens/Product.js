@@ -44,7 +44,7 @@ const Product = () => {
 				`
 			let responce=await client.fetch(query);
 			// responce=[{"description": "Cavendish Banana, 12 pcs","_id":"22324d44-f990-4fef-ac51-078f6a14c2b0", "image": {"asset": {"_ref":"image-0759590bb97976ec0d6d74bc571ddc0b7066f946-722x406-jpg"}}, "name": "Banana", "price": 60}, {"description": "Mallika mango, 1pcs","_id":"22324d44-f990-4fef-ac51-078f6a14c2b1", "image": {"asset": {"_ref":"image-0759590bb97976ec0d6d74bc571ddc0b7066f946-722x406-jpg"}}, "name": "Mango", "price": 90}]
-			//console.log(responce);
+			console.log(responce);
 			setproduct(responce);
 			} catch (error) {
 			console.log(error);	
@@ -84,6 +84,7 @@ const Product = () => {
 		return item ? item.quantity : 0;
 	  };
 	const renderItem = (item ) => (
+	
 		<View className="flex-row   mt-1 mr-3 ml-3 mb-1 rounded-2xl bg-slate-100  shadow-xl shadow-black space-x-5  overflow-hidden ">
 			<View className="rounded-2xl  p-0.5">
 
@@ -127,6 +128,7 @@ const Product = () => {
 		
 	  );
   return (
+	
 	<SafeAreaView >
 
 

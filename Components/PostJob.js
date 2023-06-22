@@ -22,17 +22,7 @@ const PostJob = () => {
   `
   //Query to post the service request
 
-//   const doc={_type:'service',name:name,address: {
-//     _type: 'geopoint',
-//     lat: Number(latitude),
-//     lng: Number(longitude),
-//     alt:0
-//   },items:[],mobilenum:Number(phone),password:digest,
-// email:email}
-// console.log(client.config());
-// client.create(doc).then((res)=>{
-//   console.log(res);
-// })
+  
 
   // client
   // .patch('id') // Document ID to patch
@@ -94,6 +84,7 @@ const PostJob = () => {
           } else if (location) {
             text = JSON.stringify(location);
             setUserAddress(text);
+            console.log(userAddress);
           }
         })();
       }, []);
@@ -118,8 +109,17 @@ const PostJob = () => {
 
     const bookJob=()=>{
         //need to save the data to the database
-        console.log("YOu clicked book JOb button");
-        navigation.navigate("Bookings");
+        const doc={_type:'service',name:value,location: {
+          _type: 'geopoint',
+          lat: Number(34.56),//userAddress.coords.latitude
+          lng: Number(73.98),//userAddress.coords.longitude
+          alt:0
+        },datetime:selectedDate,requester:"ersd234",accepter:"",workhour:"4:00-5:00"}
+      console.log(client.config());
+      client.create(doc).then((res)=>{
+        console.log(res);
+      })
+      // navigation.navigate();
     }
   return (
     <View>
