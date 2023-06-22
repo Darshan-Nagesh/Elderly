@@ -23,7 +23,7 @@ const Jobcard = () => {
     if (services.length == 0) {
       try {
         const query = `*[_type == "service"]
-                {accepter{_ref},requester{_ref},datetime,name,location,workhour}`;
+                {_id,accepter{_ref},requester{_ref},datetime,name,location,workhour}`;
         response = await client.fetch(query);
         setdata(response);
       } catch (error) {
@@ -31,9 +31,16 @@ const Jobcard = () => {
       }
     }
   };
-  const requestService = () => {
+  const requestService = (id) => {
     // service request code should come here
-    console.log("setrvice requested");
+    client
+    .delete(id)
+    .then(()=>console.log("deleted!!"))
+    .catch((err)=>{
+      console.log(err);
+    })
+   setdata("");
+  
   };
   const renderpage = (data) => {
     return (
@@ -52,7 +59,7 @@ const Jobcard = () => {
               <Pressable
                 className=""
                 android_ripple={{ color: "gray" }}
-                onPress={requestService}
+                onPress={()=>requestService(data.item._id)}
               >
                 <Text className="text-center text-white">Accept</Text>
               </Pressable>
