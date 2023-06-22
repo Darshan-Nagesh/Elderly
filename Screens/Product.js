@@ -83,23 +83,23 @@ const Product = () => {
 		//console.log(id);
 		return item ? item.quantity : 0;
 	  };
-	const renderItem = ({ item }) => (
-		<View className="flex-row   mt-1 mr-3 ml-3 mb-1 rounded-2xl bg-slate-100  shadow-xl shadow-black space-x-5 ">
+	const renderItem = (item ) => (
+		<View className="flex-row   mt-1 mr-3 ml-3 mb-1 rounded-2xl bg-slate-100  shadow-xl shadow-black space-x-5  overflow-hidden ">
 			<View className="rounded-2xl  p-0.5">
 
 			<Image source={{uri:urlFor(item.image.asset._ref).url()}} style={{width:150,height:125}} className="rounded-l-2xl  " />
 			</View>
-			<View className="flex-col">
-			<Text className="text-zinc-950 font-bold tracking-widest  text-xl py-1 ">{item.name}</Text>
+			<View className="flex-col ">
+			<Text className="text-zinc-950 font-bold break-all tracking-widest  text-xl py-1  ">{item.name}</Text>
 			<Text className="">
 			{item.description}
 			</Text>
-			<View className="flex-row pt-4">
+			<View className="flex-row pt-4 ">
 
 			<Text className="font-semibold text-lg " >₹
 			{item.price}
 			</Text>
-			<View className="ml-12 ">
+			<View className="ml-20 mt-3 absolute ">
 				{getProductQuantityInCart(item._id)==0? (
 				<Pressable className="rounded-xl bg-emerald-500" onPress={()=>handleAddToCart(item)}>
 					<Text className="font-semibold py-2 px-7  text-2xl">

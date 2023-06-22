@@ -8,13 +8,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './Screens/HomeScreen';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons,AntDesign,FontAwesome5 } from '@expo/vector-icons'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import SearchByCategory from './Screens/SearchByCategory';
+import SearchByCategory from './Screens/Service';
 import ShopByStore from './Screens/ShopByStore';
 import Cart from './Screens/Cart';
 import Profile from './Screens/Profile';
-import PostJob from './Screens/PostJob';
+import PostJob from './Components/PostJob';
 import Bookings from './Screens/Bookings';
 import Product from './Screens/Product';
 const StackNavigator = () => {
@@ -28,10 +28,10 @@ const StackNavigator = () => {
               ):(
                 <Feather name="home" size={24} color="black" />
               )}} />
-              <Tab.Screen name="SearchByCategory" component={SearchByCategory} options={{tabBarLabel:"Category",headerShown:false,tabBarIcon:({focused})=>focused?(
-                 <MaterialCommunityIcons name="view-grid" size={30} color="black" />
+              <Tab.Screen name="SearchByCategory" component={SearchByCategory} options={{tabBarLabel:"Service",headerShown:false,tabBarIcon:({focused})=>focused?(
+                <FontAwesome5 name="user-plus" size={26} color="black" />
               ):(
-                <MaterialIcons name="grid-view" size={24} color="black" />
+                <AntDesign name="adduser" size={27} color="black" />
               )}} />
               <Tab.Screen name="Cart" component={Cart} options={{tabBarLabel:"Cart",headerShown:false,tabBarIcon:({focused})=>focused?(
                   <MaterialCommunityIcons name="cart" size={30} color="black" />

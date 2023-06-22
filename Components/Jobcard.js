@@ -1,54 +1,84 @@
-import { StyleSheet, Text, View,Image } from 'react-native'
-import React from 'react'
-import { Octicons } from '@expo/vector-icons';
-import { Pressable } from 'react-native';
-const Jobcard = ({data}) => {
-    const requestService=()=>{
-        // service request code should come here
-        console.log("setrvice requested");
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  SafeAreaView,
+  FlatList,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Octicons } from "@expo/vector-icons";
+import { Pressable } from "react-native";
+import client from "../sanity";
+
+const Jobcard = () => {
+  //console.log(data);
+  const [services, setdata] = useState("");
+  useEffect(() => {
+    fetchdata();
+  }, [services]);
+
+  const fetchdata = async () => {
+    let response;
+    if (services.length == 0) {
+      try {
+        const query = `*[_type == "service"]
+                {accepter{_ref},requester{_ref},datetime,name,location,workhour}`;
+        response = await client.fetch(query);
+        console.log("resopnse: ");
+        console.log(response);
+        setdata(response);
+        console.log("Service");
+        console.log(services);
+      } catch (error) {
+        console.log(error);
+      }
     }
+  };
+  const requestService = () => {
+    // service request code should come here
+    console.log("setrvice requested");
+  };
+  const renderpage = (data) => {
+    console.log(data);
+    return (
+      <View className="bg-stone-200 rounded-xl mx-2 flex-row py-5 justify-between space-x-10">
+        
+            <View className="ml-5">
+
+          <Text className="font-bold  text-lg">{data.item.name}</Text>
+          <Text className="font-bold">Location: {data.item.location.lng},{data.item.location.lat}</Text>
+          
+          <Text>Working hours: {data.item.workhour}</Text>
+          
+            </View>
+            <View className="flex-row justify-center  space-x-6 items-center">
+            <View className="bg-green-500 px-2 py-2 rounded-md mr-5">
+              <Pressable
+                className=""
+                android_ripple={{ color: "gray" }}
+                onPress={requestService}
+              >
+                <Text className="text-center text-white">Request Now</Text>
+              </Pressable>
+            </View>
+          </View>
+        
+        
+      </View>
+    );
+  };
   return (
-    <View className="bg-slate-300 mt-4 py-4">
-        <View className="flex-row justify-around">
+    <SafeAreaView>
+      <FlatList
+        data={services}
+        renderItem={renderpage}
+        contentContainerStyle={{ justifyContent: "space-evenly", gap: 10 }}
+      />
+    </SafeAreaView>
+  );
+};
 
-    {/* data part */}
-        <View>
-            <Text className="font-bold text-lg">{data.jobtitle}</Text>  
-            <Text className="font-bold">{data.address}</Text>
-            <Text>Workling hours:{data.available_time}</Text>
-            <View className="flex-row justify-center mt-3 space-x-6 items-center">
+export default Jobcard;
 
-            {
-                
-            (data.status==="Busy")?(
-                <View className="flex-row gap-4 align-bottom ">
-                <Octicons name="dot-fill" size={24} color='red' />
-                    <Text className="text-red-600 font-extrabold ">Busy</Text>
-                </View>
-            ):(
-                <View className="flex-row gap-4 align-bottom">
-                <Octicons name="dot-fill" size={24} color='green' />
-                    <Text className="text-green-600 font-extrabold">Available</Text>
-                </View>
-            )
-            }
-            <View className="bg-green-500 px-2 py-2 rounded-md">
-
-            <Pressable className="" android_ripple={{color:"gray"}} onPress={requestService}>
-                        <Text className="text-center text-white">Request Now</Text>
-            </Pressable>
-            </View>
-            </View>
-        </View>
-        {/* image part */}
-        <View>
-            <Image source={{uri:data.url}} className="h-24 w-24 rounded-full "></Image>
-        </View>
-        </View>
-    </View>
-  )
-}
-
-export default Jobcard
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
