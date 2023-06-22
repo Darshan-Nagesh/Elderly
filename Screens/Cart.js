@@ -1,30 +1,24 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView,Pressable } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { addToCart,removeFromCart } from '../features/cartSlice';
-import {useDispatch, useSelector } from 'react-redux';
-import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
+import React, { useState, useLayoutEffect, useEffect } from "react";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { addToCart, removeFromCart } from "../features/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import client, { urlFor } from "../sanity"; //importing client from sanity file, used for fetching data
 
 const Cart = () => {
-  const dispatch=useDispatch();
-	const cart=useSelector(state=>state.cart);
-  //Update the document using patch
-  
-  // client
-  // .patch('id') // Document ID to patch
-  // .set({items: []}) // array of id's refering to products
-  // .commit() // Perform the patch and return a promise
-  // .then((data) => {
-  //   console.log(data)
-  // })
-  // .catch((err) => {
-  //   console.error(err.message);
-  // })
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
   const [cartItems, setCartItems] = useState([]);
-  useEffect(()=>
-  {
+  useEffect(() => {
     setCartItems(cart.cartItem);
-  },[cart])
+  }, [cart]);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -44,17 +38,32 @@ const Cart = () => {
     });
   }, []);
 
-
-  
   const handleAddToCart = (item) => {
-		dispatch(addToCart( item ));
-	
-	  };
+    dispatch(addToCart(item));
+  };
 
-    const handleRemoveFromCart = (item) => {
-      dispatch(removeFromCart( item ));
-  
-     };
+  const handleRemoveFromCart = (item) => {
+    dispatch(removeFromCart(item));
+  };
+
+  const checkout = () => {
+    let order = [];
+    cartItems.map((ele) => {
+      order.push(ele.product._id);
+    });
+    //Update the document using patch
+    let id = cart.userId;
+    client
+      .patch(id) // Document ID to patch
+      .set({ items: order }) // array of id's refering to products
+      .commit() // Perform the patch and return a promise
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -69,14 +78,23 @@ const Cart = () => {
                 <Text style={styles.itemPrice}>₹ {item.product.price}</Text>
               </View>
               <View style={styles.itemActions}>
-              <Pressable className="bg-red-300 rounded-sm">
-					 <Text className="font-semibold py-0.5 px-2 text-xl" onPress={()=>handleRemoveFromCart(item.product)}>-</Text>
-					 </Pressable> 
+                <Pressable className="bg-red-300 rounded-sm">
+                  <Text
+                    className="font-semibold py-0.5 px-2 text-xl"
+                    onPress={() => handleRemoveFromCart(item.product)}
+                  >
+                    -
+                  </Text>
+                </Pressable>
                 <Text style={styles.itemQuantity}>{item.quantity}</Text>
                 <Pressable className="bg-emerald-300 rounded-sm">
-					 <Text className="font-semibold py-0.5 px-2 text-xl" onPress={()=>handleAddToCart(item.product)}>+</Text>
-					 </Pressable> 
-               
+                  <Text
+                    className="font-semibold py-0.5 px-2 text-xl"
+                    onPress={() => handleAddToCart(item.product)}
+                  >
+                    +
+                  </Text>
+                </Pressable>
               </View>
             </View>
           ))
@@ -85,7 +103,7 @@ const Cart = () => {
       {cartItems.length > 0 && (
         <View style={styles.totalContainer}>
           <Text style={styles.totalText}>Total: ₹ {cart.cartTotalAmount}</Text>
-          <Button title="Place Order" onPress={() => {}} />
+          <Button title="Place Order" onPress={checkout} />
         </View>
       )}
     </View>
@@ -103,17 +121,17 @@ const styles = StyleSheet.create({
   },
   emptyCartText: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 20,
   },
   cartItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 10,
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   itemDetails: {
     flex: 1,
@@ -121,33 +139,33 @@ const styles = StyleSheet.create({
   },
   itemName: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   itemPrice: {
     fontSize: 14,
-    color: '#888',
+    color: "#888",
   },
   itemActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   itemQuantity: {
     fontSize: 16,
     marginHorizontal: 10,
   },
   totalContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 10,
     paddingVertical: 15,
     borderTopWidth: 1,
-    borderTopColor: '#ccc',
+    borderTopColor: "#ccc",
   },
   totalText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
