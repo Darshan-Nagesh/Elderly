@@ -2,7 +2,7 @@ import { View, Text,Image, ScrollView } from 'react-native'
 import React from 'react'
 import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 const OldOrderCard = ({name,image,shop}) => {
-    console.log(`inside the order card ${image}`)
+    //console.log(`inside the order card ${image}`)
   return (
     <ScrollView>
 

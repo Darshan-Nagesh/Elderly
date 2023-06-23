@@ -43,6 +43,10 @@ const handleLocationInput = async () => {
   }
 };
 
+const login=()=>
+{
+  navigation.navigate("Login");
+}
 const register=async()=>{
   
     if(email==="" || Password=== "" || phone===""  || name===""){
@@ -126,7 +130,7 @@ const register=async()=>{
       <Pressable style={styles.button} onPress={register}>
         <Text style={styles.butoonText}>Register</Text>
       </Pressable>
-      <Pressable style={styles.login}>
+      <Pressable style={styles.login} onPress={login}>
 
       <Text style={styles.loginText}>Alredy have account? Log in</Text>
       </Pressable>

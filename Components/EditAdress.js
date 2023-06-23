@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { TextInput } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
 const EditAdress = ({ person }) => {
-  console.log(person);
+  //console.log(person);
   const [lat, setLat] = useState(String(person.address.lat));
   const [lng, setLng] = useState(String(person.address.lng));
   const [alt, setAlt] = useState(String(person.address.alt));

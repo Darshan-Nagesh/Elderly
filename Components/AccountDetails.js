@@ -3,8 +3,8 @@ import React, { useEffect } from 'react'
 import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 import { FontAwesome } from '@expo/vector-icons';
 const AccountDetails = ({user,email,mobile,name,address}) => {
-  console.log(email);
-  console.log(mobile);
+  //console.log(email);
+  //console.log(mobile);
   return (
 	<View className="mt-4 py-3 flex-row space-x-8 justify-between align-baseline ">
   {/* left part of the details */}

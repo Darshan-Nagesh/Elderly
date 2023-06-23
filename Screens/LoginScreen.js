@@ -4,19 +4,41 @@ import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Pressable, Ale
 import {auth, db} from "../FireBase.js";
 import {  doc, setDoc } from 'firebase/firestore';
 import { useNavigation } from "@react-navigation/native";
+import client from "../sanity.js";
+import { useDispatch } from "react-redux";
+import { setuserid } from "../features/cartSlice.js";
 
 
 const LoginScreen = () => {
     const [email,setEmail]=useState("");
     const [Password,setPassword]=useState();
     const navigation=useNavigation();
-    const login=()=>{
+    const dispatch=useDispatch();
+    const login=async ()=>{
         // let temp="vinbhat333@gmail.com"
-            signInWithEmailAndPassword(email, Password).then(user => {
-  console.log("User signed in successfully!");
-}, error => {
-  console.log("Error signing in: " + error.message);
-})
+        
+        let query=`*[_type == "user" && email=="${email}"]
+        {_id}  `
+        try {
+          let response=await client.fetch(query);
+          
+          if(response[0]._id!="")
+          {
+            console.log(response[0]._id);
+            dispatch(setuserid(response[0]._id));
+            navigation.navigate("Main");
+          }
+          else{
+            console.log("invalid credential");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+//             signInWithEmailAndPassword(email, Password).then(user => {
+//   console.log("User signed in successfully!");
+// }, error => {
+//   console.log("Error signing in: " + error.message);
+// })
     }
     useEffect(()=>{
         const unsubscribe=auth.onAuthStateChanged((authUSer)=>{

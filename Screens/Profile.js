@@ -25,10 +25,10 @@ const Profile = () => {
   };
   useEffect(() => {
     fetchUserDetails();
-  }, []);
+  }, [cart]);
   
   const fetchUserDetails = async () => {
-    if(user.length===0){
+    // if(user.length===0){
 
     try {
        // Fetching the user data by using the user ID
@@ -47,17 +47,17 @@ const Profile = () => {
         }
     }`;
       const response = await client.fetch(query); // Pass the query and params to the fetch function
-       //console.log(response);
+      //  console.log(response);
       setUser(response);
       //can also use response[0] but not using bcz if we combinde 2 user into family in future this code might give error
     } catch (error) {
       console.log(error);
     }
       
-    }
-    else{
-      console.log("alredy have data no need to call the api")
-    }
+    // }
+    // else{
+    //   console.log("alredy have data no need to call the api")
+    // }
   }
   useLayoutEffect(() => {
     navigation.setOptions({

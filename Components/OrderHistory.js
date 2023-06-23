@@ -3,7 +3,7 @@ import React from 'react'
 import OldOrderCard from './OldOrderCard'
 import client, { urlFor } from '../sanity';//importing client from sanity file, used for fetching data
 const OrderHistory = ({orders}) => {
-    console.log(`inside the componet of order history ${orders}`);
+   // console.log(`inside the componet of order history ${orders}`);
     const shop="amar";
     //hard coded shop till the query output become correct
   return (

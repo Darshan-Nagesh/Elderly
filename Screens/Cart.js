@@ -8,7 +8,7 @@ import {
   Pressable,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { addToCart, removeFromCart } from "../features/cartSlice";
+import { addToCart, emptycart, removeFromCart } from "../features/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import client, { urlFor } from "../sanity"; //importing client from sanity file, used for fetching data
 
@@ -49,20 +49,21 @@ const Cart = () => {
   const checkout = () => {
     let order = [];
     cartItems.map((ele) => {
-      order.push(ele.product._id);
+      order.push({_ref:ele.product._id,_type:'reference'});
     });
     //Update the document using patch
     let id = cart.userId;
     client
       .patch(id) // Document ID to patch
       .set({ items: order }) // array of id's refering to products
-      .commit() // Perform the patch and return a promise
+      .commit({autoGenerateArrayKeys: true,}) // Perform the patch and return a promise
       .then((data) => {
-        console.log(data);
+        //console.log(data);
       })
       .catch((err) => {
         console.error(err.message);
       });
+      dispatch(emptycart());
   };
 
   return (

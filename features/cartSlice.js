@@ -57,10 +57,17 @@ const cartSlice=createSlice({
 		{
 			state.userId=action.payload;
 		},
+		emptycart:(state,action)=>
+		{
+			
+			state.cartItem=[];
+			state.cartTotalAmount=0;
+			state.cartTotalQuantity=0;
+		}
 
 	}
 }
 )
 
-export const {addToCart,removeFromCart,setuserid}=cartSlice.actions;
+export const {addToCart,removeFromCart,setuserid,emptycart}=cartSlice.actions;
 export default cartSlice.reducer;
