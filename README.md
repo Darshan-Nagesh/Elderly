@@ -21,7 +21,8 @@ It is developed using React-native,expo and Sanity headless CMS along with fireb
 
 ### Cart
 ![image](https://github.com/Manojvbhat/Elderly/assets/99398172/f346acac-d2f6-4eac-b60e-3f31ffb2a736)
-![image](https://github.com/Manojvbhat/Elderly/assets/99398172/c94e3255-81da-46b2-996d-1979db5bb957)
+![image](https://github.com/Darshan-Nagesh/Elderly/assets/99398172/caebf162-4e55-410a-a56d-e04f91225fd1)
+
 
 
 ### Categories
